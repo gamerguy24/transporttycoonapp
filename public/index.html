@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>🚛 Tycoon Crypto Exchange</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚛</text></svg>" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">🚛</span>
+          <div>
+            <strong>Tycoon</strong>
+            <span>Crypto Exchange</span>
+          </div>
+        </div>
+
+        <nav id="nav">
+          <a href="#/dashboard" data-view="dashboard"><span>🏠</span> Dashboard</a>
+          <a href="#/markets" data-view="markets"><span>📈</span> Markets</a>
+          <a href="#/trade" data-view="trade"><span>💱</span> Trade</a>
+          <a href="#/wallet" data-view="wallet"><span>👛</span> Wallet</a>
+          <a href="#/requests" data-view="requests"><span>📥</span> Requests <span id="request-badge" class="badge"></span></a>
+          <a href="#/create" data-view="create"><span>🪙</span> Create Coin</a>
+          <a href="#/charts" data-view="charts"><span>📊</span> Charts</a>
+          <a href="#/news" data-view="news"><span>📰</span> News</a>
+          <a href="#/whales" data-view="whales"><span>🐋</span> Whales</a>
+          <a href="#/rankings" data-view="rankings"><span>🏆</span> Rankings</a>
+          <a href="#/settings" data-view="settings"><span>⚙️</span> Settings</a>
+        </nav>
+
+        <div class="sidebar-foot">
+          <div class="index-badge">
+            <span class="label">TYCOON INDEX</span>
+            <strong id="index-value">—</strong>
+            <span id="index-change" class="delta">—</span>
+          </div>
+          <div id="engine-status" class="engine">
+            <span class="dot"></span><span id="engine-text">connecting…</span>
+          </div>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div id="ticker" class="ticker"></div>
+          <div class="identity">
+            <div id="identity-info" class="identity-info"></div>
+            <button id="identity-btn" class="btn btn-ghost">Sign in</button>
+          </div>
+        </header>
+
+        <section id="view" class="view"></section>
+      </main>
+    </div>
+
+    <div id="toast-host" class="toast-host"></div>
+
+    <dialog id="signin">
+      <div id="signin-body"></div>
+    </dialog>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

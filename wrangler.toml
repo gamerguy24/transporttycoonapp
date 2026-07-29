@@ -1,0 +1,39 @@
+name = "transporttycoonapp"
+main = "worker/index.js"
+compatibility_date = "2026-01-15"
+
+# The engine uses AbortSignal.timeout and other Node-flavoured globals.
+compatibility_flags = ["nodejs_compat"]
+
+# The website. Unknown paths fall back to index.html so the single-page router works.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+# One Durable Object holds the entire exchange: state, ledger and pricing alarm.
+[[durable_objects.bindings]]
+name = "EXCHANGE"
+class_name = "Exchange"
+
+# SQLite-backed Durable Objects are the ones available on the Workers free plan.
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Exchange"]
+
+# The object drives its own pricing through an alarm, which can run faster than
+# cron's one-minute floor. This only pokes it awake if it has been idle.
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+DATA_SOURCE = "tycoon"
+TYCOON_API_URL = "https://api.tycoon.community"
+TICK_MS = "30000"
+# Durable Object storage is persistent, so baselines survive and priming pays off.
+TYCOON_PRIME_STATS = "true"
+TYCOON_STAT_POLL_MS = "1800000"
+
+# Secrets are NOT set here — this file is committed. Use:
+#   npx wrangler secret put TYCOON_API_KEY
+#   npx wrangler secret put ADMIN_KEY

@@ -1,0 +1,51 @@
+services:
+  - type: web
+    name: tycoon-crypto-exchange
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: node server/index.js
+    healthCheckPath: /api/status
+
+    # The exchange keeps every coin, wallet and price history in a JSON file.
+    # Render wipes the normal filesystem on each deploy and restart, so this disk
+    # is what makes the market survive. DATA_FILE below must point inside it.
+    disk:
+      name: tycoon-data
+      mountPath: /var/data
+      sizeGB: 1
+
+    envVars:
+      - key: NODE_VERSION
+        value: '22'
+
+      # Must stay inside the disk's mountPath above. If you ever remove the disk,
+      # remove this at the same time — DATA_FILE with no disk behind it is the
+      # combination that leaves the store unwritable.
+      - key: DATA_FILE
+        value: /var/data/store.json
+
+      - key: DATA_SOURCE
+        value: tycoon
+      - key: TYCOON_API_URL
+        value: https://api.tycoon.community
+      - key: TICK_MS
+        value: '30000'
+
+      # Safe with a disk: stat baselines persist, so priming is a one-off cost
+      # rather than something re-spent on every restart.
+      - key: TYCOON_PRIME_STATS
+        value: 'true'
+
+      # A paid instance never sleeps, so this rotation runs around the clock and is
+      # the only thing that spends API charges: one per interval.
+      #   15 min -> 96/day   30 min -> 48/day   60 min -> 24/day
+      # Raise it to stretch a key further; refill in game with /api private refill.
+      - key: TYCOON_STAT_POLL_MS
+        value: '1800000'
+
+      # Set these in the Render dashboard, not here — this file is committed.
+      - key: TYCOON_API_KEY
+        sync: false
+      - key: ADMIN_KEY
+        sync: false

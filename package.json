@@ -1,0 +1,19 @@
+{
+  "name": "transporttycoonapp",
+  "version": "1.0.0",
+  "description": "Crypto exchange for Transport Tycoon — coin prices driven by live server economy data",
+  "type": "module",
+  "main": "server/index.js",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "reset": "node server/reset.js",
+    "cf:dev": "npx --yes wrangler dev",
+    "cf:deploy": "npx --yes wrangler deploy",
+    "cf:secrets": "npx --yes wrangler secret put TYCOON_API_KEY && npx --yes wrangler secret put ADMIN_KEY"
+  },
+  "license": "MIT"
+}

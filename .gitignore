@@ -1,0 +1,11 @@
+# Real credentials live here — never commit it. Share .env.example instead.
+.env
+
+# Persisted exchange state
+data/
+
+node_modules/
+*.log
+
+# Wrangler's local dev state (a local copy of Durable Object storage)
+.wrangler/
